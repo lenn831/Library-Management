@@ -6,17 +6,14 @@ import { IonHeader,
          IonContent, 
          IonLabel, 
          IonSegment, 
-         IonSegmentButton, 
-         IonSegmentContent, 
-         IonSegmentView, 
+         IonSegmentButton,
          IonSelect, 
          IonSelectOption,
          IonInput, 
          IonItem,
          IonButton,
          IonList,
-         IonListHeader,
-         IonNote
+         IonListHeader
        } from '@ionic/angular';
 import { Book, BookService } from '../services/book';
 
@@ -31,8 +28,6 @@ import { Book, BookService } from '../services/book';
             IonLabel, 
             IonSegment, 
             IonSegmentButton, 
-            IonSegmentContent, 
-            IonSegmentView,
             IonSelect, 
             IonSelectOption,
             IonInput, 
@@ -40,7 +35,6 @@ import { Book, BookService } from '../services/book';
             IonButton,
             IonList,
             IonListHeader,
-            IonNote,
             CommonModule, 
             FormsModule
           ]
@@ -85,13 +79,14 @@ export class Tab2Page {
     // Clear out form fields for the next process loop
     this.selectedBook = '';
     this.studentName = '';
+    this.dueDate = new Date().toISOString().split('T')[0]; // Reset to today's date
 
     alert('Book successfully issued.');
   }
 
     // Triggers the instant drop-back return workflow execution action pass
     processReturn(bookId: string) {
-      this.bookService.returnBook(bookId)
-      alert('Book returned safely to library.')
+      this.bookService.returnBook(bookId);
+      alert('Book returned safely to library.');
     }
   }

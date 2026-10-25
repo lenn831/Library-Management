@@ -56,17 +56,11 @@ export class Tab3Page {
   }
 
   addNewBook() {
-    if (this.title && this.author && this.isbn && this.category) {
-      this.bookService.addBook(this.title, this.author, this.isbn, this.category);
-      this.title = '';
-      this.author = '';
-      this.isbn = '';
-      this.category = '';
-    } else {
-      alert('Please fill in all of the fields!');
+    if (!this.title || !this.author || !this.isbn || !this.category) {
+      alert('Please fill in all fields before adding a book.');
+      return;
     }
-
-    // Call local database service to add the book to the database
+    
     this.bookService.addBook(this.title, this.author, this.isbn, this.category);
 
     //Clear all fields instantly after adding the book to the database
