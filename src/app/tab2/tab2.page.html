@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-segment [value]="currentSegment" (ionChange)="segmentChanged($event)">
+
+      <ion-segment-button value="Issue" >
+        <ion-label>Issue Book</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Return">
+        <ion-label>Return Book</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="currentSegment == 'Issue'">
+        <ion-item>
+            <ion-select label="Select available book" label-placement="floating" placeholder="Select a book" [(ngModel)]="selectedBook">
+              <ion-select-option *ngFor="let book of availableBooks" [value]="book.id">
+                {{book.title}} (By {{book.author}})
+              </ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-input label="Student Name" placeholder="Full name" [(ngModel)]="studentName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input label="Student ID" type="text" placeholder="Enter student ID"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input label="Class" type="number" placeholder="Enter class"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input label="Issue Date" type="date" placeholder="Enter issue date" [(ngModel)]="dueDate"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" color="primary" (click)="issueBook()">Issue Book</ion-button>
+  </div>
+
+  <div *ngIf="currentSegment === 'Return'">
+    <div *ngIf="borrowedBooks.length === 0">
+      <p>No books are out on student loan lines.</p>
+    </div>
+
+
+      <ion-list *ngIf = "borrowedBooks.length > 0">
+        <ion-list-header>
+          <ion-label>Out on Loan</ion-label>
+          <ion-button>See All</ion-button>
+        </ion-list-header>
+
+        <ion-item *ngFor="let book of borrowedBooks">
+          <ion-label>
+            <h2>{{ book.title }}</h2>
+            <p>Borrowed by: {{book.studentName}}</p>
+            <p>Due Date: {{book.dueDate}}</p>
+          </ion-label>
+
+        <ion-button expand="block" color="primary" (click)="processReturn(book.id)">
+          Return Book
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchBooks($event)" 
+      debounce="200"
+      placeholder='Search title, author, or category'></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="filteredBooks.length === 0" class="ion-text-center ion-padding">
+    <p>No books found matching that search criteria.</p>
+  </div>
+
+      <ion-card *ngFor="let book of filteredBooks">
+        <ion-card-header>
+          <ion-card-title>{{book.title}}</ion-card-title>
+          <ion-card-subtitle>By {{book.author}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+          <p><strong>Genre:</strong> {{ book.category }}</p>
+
+          <ion-chip [color]="book.status === 'On Shelf' ? 'success' : 'danger'" class="ion-no-margin ion-margin-top">
+            <ion-label>{{ book.status === 'On Shelf' ? 'On Shelf' : 'Checked Out' }}</ion-label>
+          </ion-chip>
+
+          <p *ngIf="book.status === 'Checked Out'" class="ion-margin-top" style="color: var(--ion-color-medium);">
+            <small>Currently with student: <strong>{{ book.studentName }}</strong></small>
+          </p>
+        </ion-card-content>
+      </ion-card>
+</ion-content>
