@@ -22,12 +22,16 @@ export class BookService {
     this.loadBooks();
   }
 
-  // DATABASE LOAD: Gets the books from browser or sets up starting books if empty
+  // Gets the books from browser or sets up starting books if empty
     private loadBooks(): void {
+        if (typeof localStorage === 'undefined') {
+            this.books = [];
+            return;
+        }
+
         const savedData = localStorage.getItem(this.STORAGE_KEY);
-        if (savedData && savedData !== '[]' && savedData !== '') {
-            this.books = JSON.parse(savedData);
-        } else {
+
+        if (!savedData) {
             this.books = [
                 { id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', isbn: '9780743273565', category: 'Fiction', status: 'On Shelf' },
                 { id: '2', title: 'To Kill a Mockingbird', author: 'Harper Lee', isbn: '9780060935467', category: 'Fiction', status: 'On Shelf' },
@@ -41,20 +45,29 @@ export class BookService {
                 { id: '10', title: 'Moby-Dick', author: 'Herman Melville', isbn: '9780142437247', category: 'Adventure', status: 'On Shelf' }
             ];
             this.saveToStorage();
+            return;
         }
-    }
 
-    // DATABASE SAVE: Saves the books to browser
+    try {
+        const parsed = JSON.parse(savedData) as Book[];
+        this.books = Array.isArray(parsed) ? parsed : [];
+    } catch {
+        this.books = [];
+    }
+}
+
+    // Saves the books to browser
     private saveToStorage(): void {
+        if (typeof localStorage === 'undefined') return;
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.books));
     }
 
-    // READ OPERATION: Returns all books
+    // Returns all books
     getBooks(): Book[] {
         return this.books;
     }
 
-    // CREATE OPERATION: Adds a new book in catalog
+    // Adds a new book in catalog
     addBook(title: string, author: string, isbn: string, category: string): void {
         const newBook: Book = {
             id: Date.now().toString(),   // Unique ID based on timestamp
@@ -68,29 +81,25 @@ export class BookService {
         this.saveToStorage();
     }
 
-    // UPDATE OPERATION (Issue): Marks a book as checked out to a student
+    // Marks a book as checked out to a student
     checkOutBook(bookId: string, studentName: string, dueDate: string): void {
         const book = this.books.find(b => b.id === bookId);
-        if (book) {
-            book.status = 'Checked Out';
-            book.studentName = studentName;
-            book.dueDate = dueDate;
-            this.saveToStorage();
+        if (!book) return;
 
-            this.loadBooks();
-        }
+        book.status = 'Checked Out';
+        book.studentName = studentName;
+        book.dueDate = dueDate;
+        this.saveToStorage();
     }  
 
     // UPDATE OPERATION (Return): Marks a book as returned and available on shelf
     returnBook(bookId: string): void {
         const book = this.books.find(b => b.id === bookId);
-        if (book) {
-            book.status = 'On Shelf';
-            delete book.studentName; //Removes student name when book is returned
-            delete book.dueDate; //Removes due date when book is returned
-            this.saveToStorage();
+        if (!book) return;
 
-            this.loadBooks();
-            }
-        }
+        book.status = 'On Shelf';
+        delete book.studentName;
+        delete book.dueDate;
+        this.saveToStorage();
     }
+}
