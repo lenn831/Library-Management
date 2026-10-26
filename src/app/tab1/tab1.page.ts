@@ -51,15 +51,13 @@ export class Tab1Page implements OnInit {
   }
 
   toggleBookStatus(book: Book) {
-    const bookisOnShelf = book.status === 'On Shelf';
-    const bookisCheckedOut = book.status === 'Checked Out';
-
-    if (bookisOnShelf) {
-      book.status = 'On Shelf';
-
-    } else if (bookisCheckedOut) {
-      book.status = 'Checked Out';
+    if (book.status === 'On Shelf') {
+      this.bookService.checkOutBook(book.id, 'Student', new Date().toISOString().split('T')[0]);
+    } else {
+      this.bookService.returnBook(book.id);
     }
+
+    this.filteredBooks = this.bookService.getBooks();
   }
 
   searchBooks(event: any) {

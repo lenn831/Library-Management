@@ -9,7 +9,6 @@
       <ion-segment-button value="Return">
         <ion-label>Return Book</ion-label>
       </ion-segment-button>
-
     </ion-segment>
   </ion-toolbar>
 </ion-header>
@@ -29,11 +28,11 @@
         </ion-item>
 
         <ion-item>
-            <ion-input label="Student ID" type="text" placeholder="Enter student ID"></ion-input>
+            <ion-input label="Student ID" type="text" placeholder="Enter student ID" [(ngModel)]="studentId"></ion-input>
         </ion-item>
 
         <ion-item>
-            <ion-input label="Class" type="number" placeholder="Enter class"></ion-input>
+            <ion-input label="Class" type="number" placeholder="Enter class" [(ngModel)]="className"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -59,6 +58,8 @@
           <ion-label>
             <h2>{{ book.title }}</h2>
             <p>Borrowed by: {{book.studentName}}</p>
+            <p>Student ID: {{book.studentId}}</p>
+            <p>Class: {{book.className}}</p>
             <p>Due Date: {{book.dueDate}}</p>
           </ion-label>
 

@@ -39,6 +39,7 @@ import { Book, BookService } from '../services/book';
             FormsModule
           ]
 })
+
 export class Tab2Page {
   // Controls the view that is active: 'Issue' or 'Return'
   currentSegment: 'Issue' | 'Return' = 'Issue';
@@ -46,7 +47,10 @@ export class Tab2Page {
   // Form input variables for checking out a book
   selectedBook: string = '';
   studentName: string = '';
+  studentId: string = '';
+  className: string = '';
   dueDate: string = '';
+
 
   constructor(private bookService: BookService) {
     // Set a default due date to todays placeholder format
@@ -68,18 +72,27 @@ export class Tab2Page {
 
   // Submits checkout form row
   issueBook() {
-    if (!this.selectedBook || !this.studentName || !this.dueDate) {
+    if (!this.selectedBook || !this.studentName || !this.dueDate || !this.studentId || !this.className || !this.dueDate ) {
       alert('Please fill in all fields to issue a book.');
       return;
     }
 
-    // Process checkout inside database sercice file
-    this.bookService.checkOutBook(this.selectedBook, this.studentName, this.dueDate.split('T')[0]); // Format date to YYYY-MM-DD
+    // Process checkout inside database service file
+    this.bookService.checkOutBook(
+      this.selectedBook,
+      this.studentName,
+      this.dueDate.split('T')[0],
+      this.studentId,
+      this.className
+    );
 
     // Clear out form fields for the next process loop
     this.selectedBook = '';
     this.studentName = '';
-    this.dueDate = new Date().toISOString().split('T')[0]; // Reset to today's date
+    this.dueDate = new Date().toISOString().split('T')[0],
+    this.studentId = '';
+    this.className = ''
+    ;
 
     alert('Book successfully issued.');
   }
@@ -89,4 +102,5 @@ export class Tab2Page {
       this.bookService.returnBook(bookId);
       alert('Book returned safely to library.');
     }
-  }
+    
+}

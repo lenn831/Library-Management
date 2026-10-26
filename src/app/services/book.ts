@@ -8,6 +8,8 @@ export interface Book {
     category: string;
     status: 'On Shelf' | 'Checked Out';
     studentName?: string;
+    studentId?: string;
+    className?: string;
     dueDate?: string;
 }
 
@@ -33,9 +35,9 @@ export class BookService {
 
         if (!savedData) {
             this.books = [
-                { id: '1', title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', isbn: '9780743273565', category: 'Fiction', status: 'On Shelf' },
-                { id: '2', title: 'To Kill a Mockingbird', author: 'Harper Lee', isbn: '9780060935467', category: 'Fiction', status: 'On Shelf' },
-                { id: '3', title: '1984', author: 'George Orwell', isbn: '9780451524935', category: 'Dystopian', status: 'On Shelf' },
+                { id: '1', title: 'The Great Gatsby', author: '', isbn: '', category: '', status: 'On Shelf' },
+                { id: '2', title: 'To Kill a Mockingbird', author: 'Harper Lee', isbn: '9780060935467', category: 'History', status: 'On Shelf' },
+                { id: '3', title: '1984', author: 'George Orwell', isbn: '9780451524935', category: 'Science', status: 'On Shelf' },
                 { id: '4', title: 'Pride and Prejudice', author: 'Jane Austen', isbn: '9780141439518', category: 'Romance', status: 'On Shelf' },
                 { id: '5', title: 'The Catcher in the Rye', author: 'J.D. Salinger', isbn: '9780316769488', category: 'Fiction', status: 'On Shelf' },
                 { id: '6', title: 'The Hobbit', author: 'J.R.R. Tolkien', isbn: '9780547928227', category: 'Fantasy', status: 'On Shelf' },
@@ -82,13 +84,16 @@ export class BookService {
     }
 
     // Marks a book as checked out to a student
-    checkOutBook(bookId: string, studentName: string, dueDate: string): void {
+    checkOutBook(bookId: string, studentName: string, dueDate: string, className?: string, studentId?: string): void {
         const book = this.books.find(b => b.id === bookId);
         if (!book) return;
 
         book.status = 'Checked Out';
         book.studentName = studentName;
+        book.studentId = studentId;
+        book.className = className;
         book.dueDate = dueDate;
+
         this.saveToStorage();
     }  
 
