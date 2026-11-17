@@ -61,6 +61,8 @@ export class ApiBookDataSource implements BookDataSource {
   providedIn: 'root'
 })
 export class BookService {
+  private readonly booksSubject = new BehaviorSubject<Book[]>([]);
+  readonly books$ = this.booksSubject.asObservable();
   private readonly STORAGE_KEY = 'school-library-database';
   private books: Book[] = [];
   private dataSource: BookDataSource;
@@ -89,20 +91,19 @@ export class BookService {
   }
 
   // Gets the books from the configured data source or sets up starting books if empty.
-  private loadBooks(): void {
+    private loadBooks(): void {
     const savedBooks = this.dataSource.load();
 
     if (savedBooks.length > 0) {
       this.books = savedBooks;
-      this.booksSubject.next([...this.books]);
-      return;
+    } else {
+      this.books = [...this.defaultBooks];
+      this.dataSource.save(this.books);
     }
 
-    this.books = [...this.defaultBooks];
-    this.saveToStorage();
+    this.booksSubject.next([...this.books]);
   }
 
-  // Saves the books to the configured data source.
   private saveToStorage(): void {
     this.dataSource.save(this.books);
     this.booksSubject.next([...this.books]);
@@ -159,7 +160,4 @@ export class BookService {
     delete book.dueDate;
     this.saveToStorage();
   }
-
-  private readonly booksSubject = new BehaviorSubject<Book[]>([]);
-  readonly books$ = this.booksSubject.asObservable();
 }

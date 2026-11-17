@@ -45,7 +45,7 @@ export class Tab2Page implements OnInit {
   // Controls the view that is active: 'Issue' or 'Return'
   currentSegment: 'Issue' | 'Return' = 'Issue';
 
-  books: Books[] = [];
+  books: Book[] = [];
 
   // Form input variables for checking out a book
   selectedBook: string = '';
@@ -60,7 +60,7 @@ export class Tab2Page implements OnInit {
     this.dueDate = new Date().toISOString().split('T')[0];
   }
 
-  ngOnInit(): {
+  ngOnInit(): void {
     this.bookService.books$.subscribe(books => {
       this.books = books;
     });
@@ -71,7 +71,7 @@ export class Tab2Page implements OnInit {
   }
 
   get borrowedBooks(): Book[] {
-    return this.boooks.filter(book => book.status === 'Checked Out');
+    return this.books.filter(book => book.status === 'Checked Out');
   }
 
   // Switch between the 'Issue' and 'Return' segments
