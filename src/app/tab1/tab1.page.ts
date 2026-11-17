@@ -33,52 +33,49 @@ import { Book, BookService } from '../services/book';
      FormsModule],
 })
 export class Tab1Page implements OnInit {
-  searchQuery: string = '';
+  searchQuery ='';
+  allBooks: Book[] = [];
   filteredBooks: Book[] = [];
 
   constructor(private bookService: BookService) {}
 
-  // ionViewWillEnter() fires every time the user clicks on the tab
-  ionViewWillEnter() {
-    this.searchQuery = '';
-    this.filteredBooks = [...this.bookService.getBooks()];
-}
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.bookService.books$.subscribe(books => {
-      this.filteredBooks = [...books];
+      this.allBooks = [...books];
+      this.applySearch();
     });
   }
 
-  toggleBookStatus(book: Book) {
+  ionViewWillEnter(): void {
+    this.allBooks = [...this.bookService.getBooks()];
+    this.applySearch();
+  }
+
+  searchBooks(event: any): void {
+    this.searchQuery = event.detail.value ?? '';
+    this.applySearch();
+  }
+
+  private applySearch(): void {
+    const query = this.searchQuery.trim().toLowerCase();
+
+    this.filteredBooks = query
+      ? this.allBooks.filter(book =>
+          [book.title, book.author, book.isbn, book.category]
+            .some(value => value.toLowerCase().includes(query))
+        )
+      : [...this.allBooks];
+  }
+
+  toggleBookStatus(book: Book): void {
     if (book.status === 'On Shelf') {
-      this.bookService.checkOutBook(book.id, 'Student', new Date().toISOString().split('T')[0]);
+      this.bookService.checkOutBook(
+        book.id,
+        'Student',
+        new Date().toISOString().split('T')[0]
+      );
     } else {
       this.bookService.returnBook(book.id);
     }
-
-    this.filteredBooks = this.bookService.getBooks();
-  }
-
-  searchBooks(event: any) {
-    const searchTerm = event.detail.value;
-
-    if (!searchTerm || searchTerm.trim() === '') {
-      this.filteredBooks = this.bookService.getBooks();
-      return;
-    }
-
-    const query = searchTerm.toLowerCase().trim();
-    const allBooks = this.bookService.getBooks();
-
-    // Basic, fast and local filtering
-    this.filteredBooks = allBooks.filter(book => {
-      return (
-        book.title.toLowerCase().includes(query) ||
-        book.author.toLowerCase().includes(query) ||
-        book.isbn.toLowerCase().includes(query) ||
-        book.category.toLowerCase().includes(query)
-      );
-    });
   }
 }
