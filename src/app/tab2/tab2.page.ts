@@ -112,6 +112,22 @@ export class Tab2Page implements OnInit {
     alert('Book successfully issued.');
   }
 
+  isOverdue(book: Book): boolean {
+  if (book.status !== 'Checked Out' || !book.dueDate) {
+    return false;
+  }
+
+  const now = new Date();
+  const today = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0')
+  ].join('-');
+
+  // Due dates use YYYY-MM-DD, so comparing these strings checks the calendar date.
+  return book.dueDate < today;
+}
+
     // Triggers the instant drop-back return workflow execution action pass
     processReturn(bookId: string) {
       this.bookService.returnBook(bookId);

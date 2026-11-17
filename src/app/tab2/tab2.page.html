@@ -61,6 +61,8 @@
             <p>Student ID: {{book.studentId}}</p>
             <p>Class: {{book.className}}</p>
             <p>Due Date: {{book.dueDate}}</p>
+            <p *ngIf="isOverdue(book)" style="color: var(--ion-color-danger); font-weight: bold;">
+              BOOK OVERDUE</p>
           </ion-label>
 
         <ion-button expand="block" color="primary" (click)="processReturn(book.id)">

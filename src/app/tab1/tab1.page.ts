@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef , Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, 
@@ -37,12 +37,15 @@ export class Tab1Page implements OnInit {
   allBooks: Book[] = [];
   filteredBooks: Book[] = [];
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService,
+              private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.bookService.books$.subscribe(books => {
       this.allBooks = [...books];
       this.applySearch();
+      this.cdr.detectChanges();
     });
   }
 

@@ -75,7 +75,7 @@ export class Tab3Page {
       this.title.trim(),
       this.author.trim(),
       this.isbn.trim(),
-      this.category
+      this.category.trim()
     );
 
     //Clear all fields instantly after adding the book to the database
