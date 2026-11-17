@@ -60,6 +60,23 @@ export class Tab3Page {
       alert('Please fill in all fields before adding a book.');
       return;
     }
+
+    const normalizedIsbn = this.isbn.trim().toLowerCase();
+    const duplicateIsbn = this.bookService.getBooks().some(
+      book => book.isbn.trim().toLowerCase() === normalizedIsbn
+    );
+
+    if (duplicateIsbn) {
+      alert('A book with this ISBN is already in the catalog.');
+      return;
+    }
+
+    this.bookService.addBook(
+      this.title.trim(),
+      this.author.trim(),
+      this.isbn.trim(),
+      this.category
+    );
     
     this.bookService.addBook(this.title, this.author, this.isbn, this.category);
 

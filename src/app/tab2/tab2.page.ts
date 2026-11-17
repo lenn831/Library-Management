@@ -72,7 +72,7 @@ export class Tab2Page {
 
   // Submits checkout form row
   issueBook() {
-    if (!this.selectedBook || !this.studentName || !this.dueDate || !this.studentId || !this.className || !this.dueDate ) {
+    if (!this.selectedBook || !this.studentName.trim() || !this.studentId.trim() || !this.className.trim() || !this.dueDate ) {
       alert('Please fill in all fields to issue a book.');
       return;
     }
@@ -80,18 +80,18 @@ export class Tab2Page {
     // Process checkout inside database service file
     this.bookService.checkOutBook(
       this.selectedBook,
-      this.studentName,
-      this.dueDate.split('T')[0],
-      this.studentId,
-      this.className
+      this.studentName.trim(),
+      this.dueDate,
+      this.className.trim(),
+      this.studentId.trim()
     );
 
     // Clear out form fields for the next process loop
     this.selectedBook = '';
     this.studentName = '';
-    this.dueDate = new Date().toISOString().split('T')[0],
     this.studentId = '';
-    this.className = ''
+    this.className = '';
+    this.dueDate = new Date().toISOString().split('T')[0]
     ;
 
     alert('Book successfully issued.');

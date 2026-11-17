@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Book {
     id: string;
@@ -93,6 +94,7 @@ export class BookService {
 
     if (savedBooks.length > 0) {
       this.books = savedBooks;
+      this.booksSubject.next([...this.books]);
       return;
     }
 
@@ -103,6 +105,7 @@ export class BookService {
   // Saves the books to the configured data source.
   private saveToStorage(): void {
     this.dataSource.save(this.books);
+    this.booksSubject.next([...this.books]);
   }
 
   // Returns all books
@@ -125,7 +128,7 @@ export class BookService {
   }
 
   // Marks a book as checked out to a student
-  checkOutBook(bookId: string, studentName: string, dueDate: string, className?: string, studentId?: string): void {
+  checkOutBook(bookId: string, studentName?: string, studentId?: string, className?: string,dueDate?: string): void {
     const book = this.books.find(b => b.id === bookId);
     if (!book) return;
 
@@ -150,4 +153,7 @@ export class BookService {
     delete book.dueDate;
     this.saveToStorage();
   }
+
+  private readonly booksSubject = new BehaviorSubject<Book[]>([]);
+  readonly books$ = this.booksSubject.asObservable();
 }

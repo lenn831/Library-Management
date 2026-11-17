@@ -41,13 +41,13 @@ export class Tab1Page implements OnInit {
   // ionViewWillEnter() fires every time the user clicks on the tab
   ionViewWillEnter() {
     this.searchQuery = '';
-    this.filteredBooks = [];
-
-    this.filteredBooks = this.bookService.getBooks();
+    this.filteredBooks = [...this.bookService.getBooks()];
 }
 
   ngOnInit() {
-    this.filteredBooks = this.bookService.getBooks();
+    this.bookService.books$.subscribe(books => {
+      this.filteredBooks = [...books];
+    });
   }
 
   toggleBookStatus(book: Book) {
