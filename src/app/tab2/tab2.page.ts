@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader,
@@ -40,9 +40,12 @@ import { Book, BookService } from '../services/book';
           ]
 })
 
-export class Tab2Page {
+export class Tab2Page implements OnInit {
+
   // Controls the view that is active: 'Issue' or 'Return'
   currentSegment: 'Issue' | 'Return' = 'Issue';
+
+  books: Books[] = [];
 
   // Form input variables for checking out a book
   selectedBook: string = '';
@@ -57,12 +60,18 @@ export class Tab2Page {
     this.dueDate = new Date().toISOString().split('T')[0];
   }
 
+  ngOnInit(): {
+    this.bookService.books$.subscribe(books => {
+      this.books = books;
+    });
+  }
+
   get availableBooks(): Book[] {
-    return this.bookService.getBooks().filter(book => book.status === 'On Shelf');
+    return this.books.filter(book => book.status === 'On Shelf');
   }
 
   get borrowedBooks(): Book[] {
-    return this.bookService.getBooks().filter(book => book.status === 'Checked Out');
+    return this.boooks.filter(book => book.status === 'Checked Out');
   }
 
   // Switch between the 'Issue' and 'Return' segments
@@ -88,7 +97,7 @@ export class Tab2Page {
       this.selectedBook,
       this.studentName.trim(),
       this.dueDate,
-      this.className.trim(),
+      String(this.className ?? '').trim(),
       this.studentId.trim()
     );
 
