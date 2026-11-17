@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { pipeline } from '@huggingface/transformers';
-
-export interface Book {
-  id: number;
-  title: string;
-  author: string;
-  genre: string;
-  description: string;
-  available?: boolean;
-}
+import { Book } from './book';
 
 @Injectable({ providedIn: 'root' })
 export class BookSearchService {
@@ -25,7 +17,7 @@ export class BookSearchService {
 
     for (const book of books) {
       const text =
-        `${book.title} ${book.author} ${book.genre} ${book.description}`;
+        `${book.title} ${book.author} ${book.isbn} ${book.category}`;
 
       const output = await this.embedder(text, {
         pooling: 'mean',

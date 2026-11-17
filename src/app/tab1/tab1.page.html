@@ -4,7 +4,9 @@
       [(ngModel)]="searchQuery"
       (ionInput)="searchBooks($event)" 
       debounce="200"
-      placeholder='Search title, author, or category'></ion-searchbar>
+      placeholder='Search naturally, such as "historical fiction"'>
+    <p *ngIf="isSearching">Searching locally...</p>
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
