@@ -77,8 +77,6 @@ export class Tab3Page {
       this.isbn.trim(),
       this.category
     );
-    
-    this.bookService.addBook(this.title, this.author, this.isbn, this.category);
 
     //Clear all fields instantly after adding the book to the database
     this.title = '';

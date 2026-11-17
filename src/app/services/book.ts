@@ -128,17 +128,23 @@ export class BookService {
   }
 
   // Marks a book as checked out to a student
-  checkOutBook(bookId: string, studentName?: string, studentId?: string, className?: string,dueDate?: string): void {
-    const book = this.books.find(b => b.id === bookId);
-    if (!book) return;
+  checkOutBook(
+  bookId: string,
+  studentName: string,
+  dueDate: string,
+  className?: string,
+  studentId?: string
+  ): void {
+  const book = this.books.find(b => b.id === bookId);
+  if (!book) return;
 
-    book.status = 'Checked Out';
-    book.studentName = studentName;
-    book.studentId = studentId;
-    book.className = className;
-    book.dueDate = dueDate;
+  book.status = 'Checked Out';
+  book.studentName = studentName;
+  book.studentId = studentId;
+  book.className = className;
+  book.dueDate = dueDate;
 
-    this.saveToStorage();
+  this.saveToStorage();
   }
 
   // UPDATE OPERATION (Return): Marks a book as returned and available on shelf

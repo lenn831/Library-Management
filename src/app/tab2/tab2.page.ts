@@ -72,10 +72,16 @@ export class Tab2Page {
 
   // Submits checkout form row
   issueBook() {
-    if (!this.selectedBook || !this.studentName.trim() || !this.studentId.trim() || !this.className.trim() || !this.dueDate ) {
-      alert('Please fill in all fields to issue a book.');
-      return;
-    }
+    if (
+  !this.selectedBook ||
+  !String(this.studentName ?? '').trim() ||
+  !String(this.studentId ?? '').trim() ||
+  !String(this.className ?? '').trim() ||
+  !this.dueDate
+  ) {
+    alert('Please fill in all fields to issue a book.');
+    return;
+  }
 
     // Process checkout inside database service file
     this.bookService.checkOutBook(
