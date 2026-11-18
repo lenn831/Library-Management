@@ -11,23 +11,37 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid>
-       <ion-row>
-         <ion-col>
-            <ion-card>
-              <ion-card-header>
-                <ion-card-title>{{ totalInventoryCount }}</ion-card-title>
-              </ion-card-header>
-            </ion-card>
-         </ion-col>
+       <ion-card class="stats-card">
+        <ion-card-header>
+          <ion-card-title>Library Statistics</ion-card-title>
+        </ion-card-header>
 
-          <ion-col>
-            <ion-card>
-              <ion-card-header>
-                 <ion-card-title>{{ activeStudentLoans }}</ion-card-title>
-              </ion-card-header>
-            </ion-card>
-          </ion-col>
-       </ion-row>
+        <ion-card-content>
+          <div class="chart" role="img" aria-label="Inventory and active loan statistics">
+            <div class="chart-row">
+              <span>Total Inventory</span>
+              <div class="chart-track">
+                <div
+                  class="chart-bar inventory-bar"
+                  [style.width.%]="inventoryPercentage">
+                </div>
+              </div>
+              <strong>{{ totalInventoryCount }}</strong>
+            </div>
+
+            <div class="chart-row">
+              <span>Active Loans</span>
+              <div class="chart-track">
+                <div
+                  class="chart-bar loans-bar"
+                  [style.width.%]="activeLoanPercentage">
+                </div>
+              </div>
+              <strong>{{ activeStudentLoans }}</strong>
+            </div>
+          </div>
+        </ion-card-content>
+        </ion-card>
       </ion-grid>
 
       <ion-item>

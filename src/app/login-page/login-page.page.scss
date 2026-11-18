@@ -1,6 +1,90 @@
-.flex-center {
-  display: flex;
-  justify-content: center;
+.login-page {
+  --background: linear-gradient(135deg, #f5f3ec 0%, #dce8df 55%, #42634f 100%);
+}
+
+.login-layout {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
   align-items: center;
-  height: 100%;
+  gap: clamp(24px, 7vw, 88px);
+  width: 100%;
+  max-width: 1120px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: clamp(24px, 6vw, 72px);
+}
+
+.login-intro {
+  max-width: 520px;
+  color: #26352e;
+}
+
+.login-intro .eyebrow {
+  color: #42634f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.login-intro h1 {
+  margin: 12px 0;
+  font-family: Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05;
+}
+
+.login-intro > p:last-child {
+  color: #66716a;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.login-card {
+  width: 100%;
+  margin: 0;
+  border: 1px solid #e4e0d5;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(38, 53, 46, 0.1);
+}
+
+.login-card ion-card-title {
+  color: #26352e;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.login-card ion-card-subtitle {
+  margin-top: 6px;
+  color: #6b756f;
+}
+
+.login-input {
+  --background: #f5f6f2;
+  --border-radius: 12px;
+  margin: 12px 0;
+  border: 1px solid #e4e0d5;
+  border-radius: 12px;
+}
+
+.login-card ion-button {
+  --background: #42634f;
+  --background-hover: #34513f;
+  --border-radius: 12px;
+  height: 48px;
+  margin-top: 20px;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 20px;
+  }
+
+  .login-intro h1 {
+    font-size: 2.6rem;
+  }
 }

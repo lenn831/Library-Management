@@ -10,6 +10,7 @@ import { IonHeader,
          IonCard,
          IonCardHeader, 
          IonCardTitle, 
+         IonCardContent,
          IonInput,
          IonItem,
          IonSelect,
@@ -31,6 +32,7 @@ import { BookService } from '../services/book';
             IonCard, 
             IonCardHeader, 
             IonCardTitle, 
+            IonCardContent,
             IonInput,
             IonItem,
             IonSelect,
@@ -53,6 +55,17 @@ export class Tab3Page {
 
   get activeStudentLoans(): number {
     return this.bookService.getBooks().filter(book => book.status === 'Checked Out').length;
+  }
+
+    get inventoryPercentage(): number {
+    return this.totalInventoryCount ? 100 : 0;
+  }
+
+  get activeLoanPercentage(): number {
+    if (!this.totalInventoryCount) return 0;
+    return Math.round(
+      (this.activeStudentLoans / this.totalInventoryCount) * 100
+    );
   }
 
   addNewBook() {

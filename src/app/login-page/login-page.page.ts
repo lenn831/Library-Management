@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, Routes } from '@angular/router';
-import { IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/angular';
+import { IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/angular';
 
 @Component({
   selector: 'app-login-page',
@@ -10,7 +10,7 @@ import { IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardContent, IonIt
   styleUrls: ['./login-page.page.scss'],
   standalone: true,
   imports: [ ReactiveFormsModule, CommonModule,
-    IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonButton]
+    IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonLabel, IonInput, IonButton]
 })
 
 export class LoginPagePage {
