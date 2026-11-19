@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader,  
-         IonToolbar,  
+         IonToolbar,
+         IonTitle,
          IonContent, 
          IonCol, 
          IonGrid, 
@@ -25,6 +26,7 @@ import { BookService } from '../services/book';
   styleUrls: ['tab3.page.scss'],
   imports: [IonHeader,
             IonToolbar,  
+            IonTitle,
             IonContent, 
             IonCol, 
             IonGrid, 

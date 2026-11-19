@@ -1,9 +1,16 @@
 ion-toolbar {
   --background: #42634f;
   --color: #ffffff;
-  min-height: 64px;
-  padding: 8px 12px;
-  font-weight: 700;
+  min-height: 68px;
+  padding-inline: 8px;
+}
+
+ion-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: left;
 }
 
 ion-content {
