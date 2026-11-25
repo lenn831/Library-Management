@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import { IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonItem, IonLabel, IonInput, IonButton } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,30 +17,31 @@ import { IonCard, IonContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonC
 export class LoginPagePage {
   loginForm: FormGroup;
   
-  routes: Routes = [
-    {path: '', redirectTo: 'login', pathMatch: 'full'},
-    {path: 'login-page', loadComponent: () => import('./login-page.page').then(m => m.LoginPagePage) },
-    {path: 'tabs', loadChildren: () => import('../tabs/tabs.routes').then(m => m.routes) }
-  ]
+  constructor(
+  private fb: FormBuilder,
+  private router: Router,
+  private authService: AuthService
+  ) {
+  this.loginForm = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  });
+}
 
-
-  constructor(private fb: FormBuilder, private router: Router) { 
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-  }
-
-login() {
+login(): void {
   if (this.loginForm.invalid) return;
 
   const { username, password } = this.loginForm.value;
 
-  if (username === 'admin' && password === 'admin123') {
-    sessionStorage.setItem('isLoggedIn', 'true');
-    this.router.navigateByUrl('/tabs/tab1');
-  } else {
+  if (!this.authService.login(username, password)) {
     alert('Invalid username or password');
+    return;
+  }
+
+  if (this.authService.getRole() === 'student') {
+    this.router.navigateByUrl('/student');
+  } else {
+    this.router.navigateByUrl('/tabs/tab1');
   }
 }
 }
