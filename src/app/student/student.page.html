@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Student Catalog</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let book of books">
+    <ion-card-header>
+      <ion-card-title>{{ book.title }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{ book.author }}</p>
+
+      <ion-chip [color]="book.status === 'On Shelf' ? 'success' : 'danger'">
+        <ion-label>{{ book.status }}</ion-label>
+      </ion-chip>
+
+      <ion-button
+        *ngIf="book.status === 'On Shelf'"
+        expand="block"
+        (click)="borrow(book)"
+      >
+        Borrow
+      </ion-button>
+
+      <ion-button
+        *ngIf="book.status === 'Checked Out' &&
+               book.studentId === studentId"
+        expand="block"
+        color="medium"
+        (click)="returnBook(book)"
+      >
+        Return
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -16,6 +16,8 @@ export const roleGuard: CanActivateFn = route => {
   }
 
   return router.parseUrl(
-    auth.getRole() === 'student' ? '/student' : '/tabs/tab1'
+    auth.getRole() === 'student'
+      ? '/student'
+      : '/tabs/tab1'
   );
 };

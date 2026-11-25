@@ -12,7 +12,7 @@ import {
   IonCardContent,
   IonChip,
   IonLabel,
-} from '@ionic/angular/standalone';
+} from '@ionic/angular';
 import { Book, BookService } from '../services/book';
 
 @Component({

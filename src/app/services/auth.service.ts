@@ -9,14 +9,23 @@ export class AuthService {
     };
 
     login(username: string, password: string): boolean {
-        if (username === 'student' && password === 'student123') {
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('role', 'student');
+        const role = 
+        username === 'student' && password === 'student123' ? 'student' :
+        username === 'admin ' && password === 'admin123' ? 'admin' :
+        null;
+
+        if (!role) return false;
+
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('role', role);
+
+        if (role === 'student') {
             sessionStorage.setItem('studentId', 'STU-001');
-            return true;
+        } else {
+            sessionStorage.removeItem('studentId');
         }
 
-        return false;
+        return true;
     }
 
     logout(): void {
